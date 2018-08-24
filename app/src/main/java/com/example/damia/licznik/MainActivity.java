@@ -13,9 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import com.google.android.gms.common.data.DataHolder;
 import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     CheckBox cbZus;
     TextView tvVat, tvZus, tvDochodowy, tvBrutto, tvKwotaFinalna;
     Button bPrzelicz, bZapisz, bPokazZapisane;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,21 +119,16 @@ public class MainActivity extends AppCompatActivity {
                 saveValues.setFinalna(tvKwotaFinalna.getText().toString());
                 saveValues.setNetto(etKwotaNetto.getText().toString());
                 savedList.add(saveValues);
-                //Log.d("sprawdzam", savedList.get(0).toString() + "    " + saveValues.getNazwa());
-
-                for (int i = 0; i < savedList.size(); i++) {
-                    Log.d("sprawdzam", savedList.get(i).getNazwa() + "    " + saveValues.getNazwa());
-                }
 
                 Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
-
-                for (int i = 0; i < savedList.size(); i++) {
-                    intent1.putExtra("tablicaDanych" + String.valueOf(i), savedList.get(0).getNazwa());
+                for(int i = 0; i < savedList.size(); i++){
+                    intent1.putExtra("tablicaDanych", savedList.get(i).getNazwa());
+                    intent1.putExtra("rozmiarTablicy", savedList.size());
+                    Log.d("w main activity: ", String.valueOf(savedList.size()));
                 }
                 startActivity(intent1);
-
-
             }
+
         });
         builder.show();
     }

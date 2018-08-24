@@ -21,10 +21,18 @@ public class ListActivity extends AppCompatActivity {
         dataAdapter = new DataAdapter(getLayoutInflater());
         savedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         savedRecyclerView.setAdapter(dataAdapter);
-        Bundle bundle = getIntent().getExtras();
+        //Bundle bundle = getIntent().getExtras();
         //Intent intent = new Intent();
-        for (int i = 0; i < bundle.size(); i++) {
-            String daneDoZapisu = bundle.getString("tablicaDanych" + String.valueOf(i));
+
+        //int rozmiarTablicy = bundle.getInt("rozmiarTablicy");
+
+
+
+        int rozmiarTablicy = getIntent().getIntExtra("rozmiarTablicy",0);
+        for (int i = 0; i < rozmiarTablicy; i++) {
+            //String daneDoZapisu = bundle.getString("tablicaDanych");
+            String daneDoZapisu = getIntent().getStringExtra("tablicaDanych");
+
             dataAdapter.add(daneDoZapisu);
             Log.d("sprawdzam", daneDoZapisu);
         }
