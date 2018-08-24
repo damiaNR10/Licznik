@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvVat, tvZus, tvDochodowy, tvBrutto, tvKwotaFinalna;
     Button bPrzelicz, bZapisz, bPokazZapisane;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,12 +98,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
-                Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
-
-                for (int i = 0; i < savedList.size(); i++) {
-                    intent1.putExtra("tablicaDanych" + String.valueOf(i), savedList.get(0).getNazwa());
-                }
-                startActivity(intent1);
             }
         });
 
@@ -131,6 +127,13 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < savedList.size(); i++) {
                     Log.d("sprawdzam", savedList.get(i).getNazwa() + "    " + saveValues.getNazwa());
                 }
+
+                Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
+
+                for (int i = 0; i < savedList.size(); i++) {
+                    intent1.putExtra("tablicaDanych" + String.valueOf(i), savedList.get(0).getNazwa());
+                }
+                startActivity(intent1);
 
 
             }
