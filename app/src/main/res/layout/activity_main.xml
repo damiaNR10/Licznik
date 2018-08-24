@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:id="@+id/etKwotaNetto"
+            android:inputType="number"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:hint="Podaj kwotę netto"/>
+
+        <CheckBox
+            android:id="@+id/cbZus"
+            android:layout_toRightOf="@+id/etKwotaNetto"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Preferencyjny ZUS"
+            android:textSize="12sp"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bPrzelicz"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Oblicz"/>
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tvVat"
+        android:layout_below="@+id/bPrzelicz"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvVat"
+        android:id="@+id/tvZus"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvZus"
+        android:id="@+id/tvDochodowy"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvDochodowy"
+        android:id="@+id/tvBrutto"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvBrutto"
+        android:id="@+id/tvKwotaFinalna"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
+
+    <Button
+        android:visibility="gone"
+        android:layout_below="@+id/tvKwotaFinalna"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bZapisz"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Zapisz"/>
+
+    <Button
+        android:visibility="gone"
+        android:layout_below="@+id/bZapisz"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bPokazZapisane"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Pokaz zapisane"/>
+
+</RelativeLayout>
