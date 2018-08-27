@@ -21,6 +21,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String VALUE_TO_CHECK_KEY = "value_to_check";
     List<SaveValues> savedList = new ArrayList<>();
     EditText etKwotaNetto;
     CheckBox cbZus;
@@ -51,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
                     double kwotaVatu = 0.23 * kwotaNetto;
                     tvVat.setText("VAT: " + String.valueOf(kwotaVatu));
                     bZapisz.setVisibility(View.VISIBLE);
-                    bPokazZapisane.setVisibility(View.VISIBLE);
+                    if(!savedList.isEmpty()) {
+                        bPokazZapisane.setVisibility(View.VISIBLE);
+                    }else {
+                        bPokazZapisane.setVisibility(View.GONE);
+                    }
                     if(cbZus.isChecked()){
                         double kwotaZusu = kwotaNetto - kwotaVatu - 520;
                         double kwotaDochodowego = 0.18 * kwotaZusu;
@@ -132,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
                 saveValues.setDochodowy(tvDochodowy.getText().toString());
                 saveValues.setFinalna(tvKwotaFinalna.getText().toString());
                 saveValues.setNetto(etKwotaNetto.getText().toString());
+                if(cbZus.isChecked()){
+                    saveValues.setZus("ZUS: 520");
+
+                }else{
+                    saveValues.setZus("ZUS: 1200");
+                }
                 savedList.add(saveValues);
 
                 /*Intent intent1 = new Intent(MainActivity.this, ListActivity.class);

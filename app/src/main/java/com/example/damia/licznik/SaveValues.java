@@ -14,6 +14,16 @@ public class SaveValues implements Serializable{
     public String netto;
     public String vat;
     public String dochodowy;
+    public String zus;
+
+
+    public String getZus() {
+        return zus;
+    }
+
+    public void setZus(String zus) {
+        this.zus = zus;
+    }
 
     public String getNetto() {
         return netto;

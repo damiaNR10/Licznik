@@ -1,17 +1,13 @@
 package com.example.damia.licznik;
 
 import android.content.Intent;
-import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.io.Serializable;
-import java.text.ParseException;
-
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements DataAdapter.DataClickedListener {
 
     RecyclerView savedRecyclerView;
     public DataAdapter dataAdapter;
@@ -23,6 +19,7 @@ public class ListActivity extends AppCompatActivity {
         savedRecyclerView = (RecyclerView) findViewById(R.id.savedRecyclerView);
 
         dataAdapter = new DataAdapter(getLayoutInflater());
+        dataAdapter.setDataClickedListener(this);
         savedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         savedRecyclerView.setAdapter(dataAdapter);
         //Bundle bundle = getIntent().getExtras();
@@ -43,11 +40,18 @@ public class ListActivity extends AppCompatActivity {
             //String daneDoZapisu = bundle.getString("tablicaDanych");
             //String daneDoZapisu = getIntent().getStringExtra("tablicaDanych");
             //Serializable daneDoZapisu = getIntent().getSerializableExtra("tablicaDanych");
-            dataAdapter.add(daneDoZapisu.getNazwa());
+            dataAdapter.add(daneDoZapisu);
             Log.d("sprawdzam", daneDoZapisu.getNazwa());
         }
         /*String daneDoZapisu = bundle.getString("tablicaDanych");
         dataAdapter.add(daneDoZapisu);
         Log.d("sprawdzam", daneDoZapisu);*/
+    }
+
+    @Override
+    public void onDataClicked(SaveValues saveValues) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(MainActivity.VALUE_TO_CHECK_KEY, saveValues);
+        startActivityForResult(intent, 2);
     }
 }
