@@ -1,8 +1,9 @@
 package com.example.damia.licznik;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SaveValues {
+public class SaveValues implements Serializable{
     SaveValues(String nazwa){
         this.nazwa = nazwa;
     }

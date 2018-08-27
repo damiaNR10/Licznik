@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     tvDochodowy.setText("");
                     tvKwotaFinalna.setText("");
                 }
+
             }
         });
         bZapisz.setOnClickListener(new View.OnClickListener() {
@@ -90,11 +91,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         bPokazZapisane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                //startActivity(intent);
+                Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
+                for(int i = 0; i < savedList.size(); i++){
+                    /*intent1.putExtra("tablicaDanych", savedList.get(i));
+                    intent1.putExtra("rozmiarTablicy", savedList.size());
+                    Log.d("sprawdzam1 ", String.valueOf(savedList.size()));*/
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("tablicaDanych" + String.valueOf(i), savedList.get(i));
+                    bundle.putInt("rozmiarTablicy", savedList.size());
+                    intent1.putExtras(bundle);
+                }
+                startActivity(intent1);
             }
         });
 
@@ -120,16 +134,25 @@ public class MainActivity extends AppCompatActivity {
                 saveValues.setNetto(etKwotaNetto.getText().toString());
                 savedList.add(saveValues);
 
-                Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
+                /*Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
                 for(int i = 0; i < savedList.size(); i++){
                     intent1.putExtra("tablicaDanych", savedList.get(i).getNazwa());
                     intent1.putExtra("rozmiarTablicy", savedList.size());
                     Log.d("w main activity: ", String.valueOf(savedList.size()));
                 }
-                startActivity(intent1);
+                startActivity(intent1);*/
+
+                if(savedList.isEmpty()) {
+                    bPokazZapisane.setVisibility(View.GONE);
+                    Log.d("pusta lista", "pusta lista");
+                } else {
+                    bPokazZapisane.setVisibility(View.VISIBLE);
+                }
             }
 
         });
         builder.show();
+
+
     }
 }

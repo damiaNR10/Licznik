@@ -61,8 +61,6 @@ class DataViewHolder extends RecyclerView.ViewHolder{
     public void setData(String data) {
         this.data = data;
         textView.setText(data);
-        //textView.setBackgroundColor();
-        Log.d("sprawdzma", textView.getText().toString());
     }
 
     public String getData() {
