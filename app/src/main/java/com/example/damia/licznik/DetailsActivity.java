@@ -1,5 +1,6 @@
 package com.example.damia.licznik;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String VALUE_TO_CHECK_KEY = "value_to_check";
     TextView tvVat, tvZus, tvDochodowy, tvBrutto, tvKwotaFinalna, tvNetto;
     SaveValues saveValueToShow;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,6 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         valueToCheck = intent.getSerializableExtra(VALUE_TO_CHECK_KEY).toString();
         saveValueToShow = (SaveValues) intent.getSerializableExtra(VALUE_TO_CHECK_KEY);
-
-
 
         if(valueToCheck != null){
             tvVat.setText(saveValueToShow.getVat());

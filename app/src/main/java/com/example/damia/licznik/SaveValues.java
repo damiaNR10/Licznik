@@ -21,9 +21,7 @@ public class SaveValues implements Serializable{
         return zus;
     }
 
-    public void setZus(String zus) {
-        this.zus = zus;
-    }
+    public void setZus(String zus) { this.zus = zus; }
 
     public String getNetto() {
         return netto;
@@ -65,8 +63,6 @@ public class SaveValues implements Serializable{
         this.finalna = finalna;
     }
 
-
-
     public String getNazwa() {
         return nazwa;
     }
@@ -74,6 +70,4 @@ public class SaveValues implements Serializable{
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
-
-
 }

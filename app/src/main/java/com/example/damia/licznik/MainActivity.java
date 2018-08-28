@@ -2,6 +2,7 @@ package com.example.damia.licznik;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.google.android.gms.common.data.DataHolder;
+import com.google.gson.Gson;
+
 import org.w3c.dom.Text;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,11 +30,17 @@ public class MainActivity extends AppCompatActivity {
     CheckBox cbZus;
     TextView tvVat, tvZus, tvDochodowy, tvBrutto, tvKwotaFinalna;
     Button bPrzelicz, bZapisz, bPokazZapisane;
+    SharedPreferences sharedPreferences;
+    //SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*if (sharedPreferences != null){
+            restoreData();
+        }*/
 
         etKwotaNetto = (EditText) findViewById(R.id.etKwotaNetto);
         cbZus = (CheckBox) findViewById(R.id.cbZus);
@@ -100,13 +109,9 @@ public class MainActivity extends AppCompatActivity {
         bPokazZapisane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                //startActivity(intent);
+
                 Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
                 for(int i = 0; i < savedList.size(); i++){
-                    /*intent1.putExtra("tablicaDanych", savedList.get(i));
-                    intent1.putExtra("rozmiarTablicy", savedList.size());
-                    Log.d("sprawdzam1 ", String.valueOf(savedList.size()));*/
 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("tablicaDanych" + String.valueOf(i), savedList.get(i));
@@ -117,9 +122,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
+
 
     public void showInputDialog()
     {
@@ -145,25 +149,32 @@ public class MainActivity extends AppCompatActivity {
                 }
                 savedList.add(saveValues);
 
-                /*Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
-                for(int i = 0; i < savedList.size(); i++){
-                    intent1.putExtra("tablicaDanych", savedList.get(i).getNazwa());
-                    intent1.putExtra("rozmiarTablicy", savedList.size());
-                    Log.d("w main activity: ", String.valueOf(savedList.size()));
-                }
-                startActivity(intent1);*/
-
                 if(savedList.isEmpty()) {
                     bPokazZapisane.setVisibility(View.GONE);
-                    Log.d("pusta lista", "pusta lista");
                 } else {
                     bPokazZapisane.setVisibility(View.VISIBLE);
                 }
+                //saveData(saveValues);
+
             }
 
         });
         builder.show();
 
 
+    }
+
+    private void saveData(SaveValues saveValues) {
+        Gson gson = new Gson();
+        String json = gson.toJson(saveValues);
+        sharedPreferences.edit().putString("MyObject", json).apply();
+        //preferenceEditor.putString("MyObject", json);
+        ///preferenceEditor.apply();
+    }
+
+    private void restoreData() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("MyObject", "");
+        SaveValues obj = gson.fromJson(json, SaveValues.class);
     }
 }
