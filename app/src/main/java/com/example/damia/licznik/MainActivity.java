@@ -3,6 +3,8 @@ package com.example.damia.licznik;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.renderscript.Sampler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,16 +33,19 @@ public class MainActivity extends AppCompatActivity {
     TextView tvVat, tvZus, tvDochodowy, tvBrutto, tvKwotaFinalna;
     Button bPrzelicz, bZapisz, bPokazZapisane;
     SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferencesForI;
+    int i = 0;
     //SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*if (sharedPreferences != null){
-            restoreData();
-        }*/
+        sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferencesForI =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        //sharedPreferences.edit().clear().apply();
+        i = sharedPreferencesForI.getInt("valueOfI", 0);
+        sharedPreferencesForI.edit().remove("valueOfI").apply();
 
         etKwotaNetto = (EditText) findViewById(R.id.etKwotaNetto);
         cbZus = (CheckBox) findViewById(R.id.cbZus);
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         bPrzelicz = (Button) findViewById(R.id.bPrzelicz);
         bZapisz = (Button) findViewById(R.id.bZapisz);
         bPokazZapisane = (Button) findViewById(R.id.bPokazZapisane);
+        Log.d("sprawdzam2", sharedPreferences.getAll().toString());
 
         bPrzelicz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         bPokazZapisane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,8 +127,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (sharedPreferences != null) {
+            restoreData();
+        }
     }
-
 
     public void showInputDialog()
     {
@@ -154,10 +161,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     bPokazZapisane.setVisibility(View.VISIBLE);
                 }
-                //saveData(saveValues);
+                saveData(saveValues);
 
+                //saveArrayData((ArrayList<SaveValues>) savedList);
             }
-
         });
         builder.show();
 
@@ -167,14 +174,38 @@ public class MainActivity extends AppCompatActivity {
     private void saveData(SaveValues saveValues) {
         Gson gson = new Gson();
         String json = gson.toJson(saveValues);
-        sharedPreferences.edit().putString("MyObject", json).apply();
+        sharedPreferences.edit().putString("MyObject" + i, json).apply();
         //preferenceEditor.putString("MyObject", json);
-        ///preferenceEditor.apply();
+        //preferenceEditor.apply();
+        Log.d("sprawdzam3", sharedPreferences.getAll().toString());
+        Log.d("sprawdzamRozmiarShared3", String.valueOf(sharedPreferences.getAll().size()));
+        i++;
     }
 
     private void restoreData() {
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("MyObject", "");
-        SaveValues obj = gson.fromJson(json, SaveValues.class);
+        for(int a = 0; a < sharedPreferences.getAll().size(); a++) {
+            String json = sharedPreferences.getString("MyObject" + a, "");
+            SaveValues obj = gson.fromJson(json, SaveValues.class);
+            savedList.add(obj);
+        }
+        Log.d("sprawdzam", sharedPreferences.getAll().toString());
+        Log.d("sprawdzamRozmiarShared", String.valueOf(sharedPreferences.getAll().size()));
     }
+
+    private void saveArrayData(ArrayList<SaveValues> saveValues){
+        Gson gson = new Gson();
+        String json = gson.toJson(saveValues);
+        sharedPreferences.edit().putString("MyObject", json).apply();
+        Log.d("sprawdzamTablice", sharedPreferences.getAll().toString());
+    }
+
+    @Override
+    protected void onStop() {
+        sharedPreferencesForI.edit().putInt("valueOfI", i).apply();
+        Log.d("sprawdzamWartoscIwOP", String.valueOf(i));
+        Log.d("sprawdzamOnPause", "onPause");
+        super.onStop();
+    }
+
 }

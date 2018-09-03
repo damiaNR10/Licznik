@@ -2,6 +2,7 @@ package com.example.damia.licznik;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,7 +25,6 @@ class DataAdapter extends RecyclerView.Adapter<DataViewHolder>{
 
     private final LayoutInflater layoutInflater;
     private final SharedPreferences sharedPreferences;
-    //private List<SaveValues> savedList = new ArrayList<>();
     private List<SaveValues> savedList = new ArrayList<>();
     DataClickedListener dataClickedListener;
 
@@ -32,19 +32,29 @@ class DataAdapter extends RecyclerView.Adapter<DataViewHolder>{
 
         this.layoutInflater = layoutInflater;
         this.sharedPreferences = sharedPreferences;
-        String savedObjectJson = sharedPreferences.getString("SAVED_KEY", "[]");
+
+        //String savedObjectJson = sharedPreferences.getString("SAVED_KEY", "[]");
         Gson gson = new Gson();
-        try {
-            JSONArray jsonArray = new JSONArray(savedObjectJson);
-            String json = sharedPreferences.getString("MyObject", "");
-            SaveValues obj = gson.fromJson(json, SaveValues.class);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                //savedList.add(i, obj);
-            }
-            notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        //JSONArray jsonArray = new JSONArray(savedObjectJson);
+        String json = sharedPreferences.getString("MyObject", "");
+        SaveValues obj = gson.fromJson(json, SaveValues.class);
+        //for (int i = 0; i < jsonArray.length(); i++) {
+        //savedList.add(i, obj);
+        //for (int i = 0; i < savedList.size(); i++) {
+        //savedList.add(obj);
+        /*for(int a = 0; a < sharedPreferences.getAll().size(); a++ ){
+            //if(sharedPreferences.getAll().size() > 0){
+                String json = sharedPreferences.getString("MyObject", "");
+                SaveValues obj = gson.fromJson(json, SaveValues.class);
+                savedList.add(a, obj);
+                Log.d("sprawdzam", obj.getNazwa());
+            //}
+        }*/
+        //Log.d("sprawdzam", obj.getNazwa());
+        //}
+        //savedList.add(obj);
+        //}
+        notifyDataSetChanged();
         /*List<SaveValues> arrayToSave= new ArrayList<>();
         for (int i = 0; i < obj.size(); i++) {
             savedList.add(obj[i]);
@@ -54,7 +64,7 @@ class DataAdapter extends RecyclerView.Adapter<DataViewHolder>{
     @Override//sluzy do utworzenia widokow kiedy sa potrzebne
     public DataViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
-        return new DataViewHolder(view,this );
+        return new DataViewHolder(view,this);
     }
 
     @Override//zadaniem jest przypisanie odpowiednich wartości do kazdego wiersza
@@ -70,19 +80,18 @@ class DataAdapter extends RecyclerView.Adapter<DataViewHolder>{
 
     public void remove(int position){
         savedList.remove(position);
-        saveInPreferences();
+        //saveInPreferences();
     }
 
     public void add(SaveValues nazwa){
         savedList.add(nazwa);
-        notifyItemInserted(savedList.size() - 1);
-
-        saveInPreferences();
+        //notifyItemInserted(savedList.size() - 1);
+        notifyDataSetChanged();
+        //saveInPreferences();
     }
 
     private void saveInPreferences() {
         JsonArray arrayToSave= new JsonArray();
-
 
         for (int i = 0; i < savedList.size(); i++) {
             //arrayToSave.add(String.valueOf(savedList.get(i)));
@@ -90,7 +99,6 @@ class DataAdapter extends RecyclerView.Adapter<DataViewHolder>{
             String jsonIt = gsonToJson.toJson(savedList.get(i));
             arrayToSave.add(jsonIt);
         }
-
         Gson gson = new Gson();
         //String json = gson.toJson(arrayToSave);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -140,4 +148,5 @@ class DataViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public void onClick(View view) {
         dataAdapter.clicked(getPosition());
     }
+
 }
